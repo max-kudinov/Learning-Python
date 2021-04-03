@@ -1,1 +1,1 @@
-This is my Python projects from JetBrains Academy
+This program gives you a multiline string based on input number
