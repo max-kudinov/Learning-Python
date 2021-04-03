@@ -1,1 +1,1 @@
-This is my Python projects from JetBrains Academy
+Simple terminal tic-tac-toe game
