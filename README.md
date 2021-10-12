@@ -1,1 +1,1 @@
-This is my Python projects from JetBrains Academy
+This is my Python projects from JetBrains Academy.
