@@ -1,1 +1,1 @@
-This is my Python projects from JetBrains Academy.
+This is the repository with small projects to learn Python.
