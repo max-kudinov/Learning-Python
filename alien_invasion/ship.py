@@ -13,8 +13,8 @@ class Ship:
         self.settings = game.settings
 
         # Load the ship image
-        self.image = pygame.image.load(self.settings.image_path)
-        self.image = pygame.transform.scale(self.image, self.settings.image_scale)
+        self.image = pygame.image.load(self.settings.ship_image_path)
+        self.image = pygame.transform.scale(self.image, self.settings.ship_image_scale)
         self.rect = self.image.get_rect()
 
         # Spawn the ship at the bottom of the screen

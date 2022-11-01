@@ -5,10 +5,12 @@ class Settings:
         """Initialize the game's settings"""
         self.screen_width = 1024
         self.screen_height = 768
-        self.image_scale = (80, 105)
-        self.image_path = "images/ship_cropped.bmp"
+        self.ship_image_scale = (57, 72)
+        self.alien_image_scale = (60, 39)
+        self.ship_image_path = "images/ship2.0.bmp"
+        self.alien_image_path = "images/alien.bmp"
         self.bg_color = (35, 38, 52)
-        self.ship_speed = 1.0
+        self.ship_speed = 0.6
         self.bullet_speed = 0.25
         self.bullet_width = 3
         self.bullet_height = 15
