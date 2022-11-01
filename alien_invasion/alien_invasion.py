@@ -31,6 +31,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -104,11 +105,34 @@ class AlienInvasion:
             for alien_number in range(number_aliens_x):
                 self._create_alien(alien_number, row_number, alien_width, alien_height)
 
+    def _check_fleet_edges(self):
+        """Changes direction of a fleet if fleet has reached the edge"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Moves the fleet down and changes direction"""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
     def _create_alien(self, alien_number, row_number, alien_width, alien_height):
         alien = Alien(self)
-        alien.rect.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.y = alien_height + 2 * alien_height * row_number
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.y = alien_height + 2 * alien_height * row_number
+        alien.rect.y = alien.y
         self.aliens.add(alien)
+
+    def _update_aliens(self):
+        """
+        Checks if the fleet has reached the edge,
+        then updates the positions of all aliens in the fleet
+        """
+        self._check_fleet_edges()
+        self.aliens.update()
 
 
 if __name__ == "__main__":
