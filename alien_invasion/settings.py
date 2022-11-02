@@ -11,6 +11,7 @@ class Settings:
         self.alien_image_path = "images/alien.bmp"
         self.bg_color = (35, 38, 52)
         self.ship_speed = 0.6
+        self.ship_limit = 3
         self.bullet_speed = 0.5
         self.bullet_width = 3
         self.bullet_height = 15
