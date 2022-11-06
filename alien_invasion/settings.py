@@ -28,17 +28,28 @@ class Settings:
         # Alien settings
         self.fleet_drop_speed = 10
 
-        # Game speedup
-        self.speedup_scale = 1.4
+    def set_easy_mode(self):
+        self.ship_speed = 0.2
+        self.bullet_speed = 0.3
+        self.alien_speed = 0.05
 
-        self.initialize_dynamic_settings()
+        self.speedup_scale = 1.1
+        self.fleet_direction = 1
 
-    def initialize_dynamic_settings(self):
-        """Initialize settings that change throughout the game"""
+    def set_medium_mode(self):
         self.ship_speed = 0.3
         self.bullet_speed = 0.5
         self.alien_speed = 0.1
 
+        self.speedup_scale = 1.4
+        self.fleet_direction = 1
+
+    def set_hard_mode(self):
+        self.ship_speed = 0.5
+        self.bullet_speed = 0.7
+        self.alien_speed = 0.2
+
+        self.speedup_scale = 1.7
         self.fleet_direction = 1
 
     def increase_speed(self):

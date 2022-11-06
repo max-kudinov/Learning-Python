@@ -6,6 +6,8 @@ class GameStats:
         self.settings = game.settings
         self.reset_stats()
 
+        self.play_screen = True
+        self.difficulty_select = False
         self.game_active = False
 
     def reset_stats(self):
