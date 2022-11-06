@@ -60,9 +60,9 @@ class AlienInvasion:
             self._start_game()
 
     def _check_keydown_events(self, event):
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
             self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
+        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
             self.ship.moving_left = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -73,9 +73,9 @@ class AlienInvasion:
             sys.exit()
 
     def _check_keyup_events(self, event):
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
             self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
+        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
             self.ship.moving_left = False
 
     def _update_screen(self):
@@ -118,6 +118,7 @@ class AlienInvasion:
         if not self.aliens:
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _fire_bullet(self):
         """Create new bullet and add it to bullets group"""
@@ -216,6 +217,7 @@ class AlienInvasion:
         # Reset game
         self.stats.reset_stats()
         self._reset_game()
+        self.settings.initialize_dynamic_settings()
 
         self.stats.game_active = True
 
