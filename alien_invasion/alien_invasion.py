@@ -131,7 +131,7 @@ class AlienInvasion:
         # Calculate number of aliens in a row
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
-        available_space_x = self.settings.screen_width - (2 * alien_width)
+        available_space_x = self.settings.screen_width - (4 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width) + 1
 
         # Calculate number of rows
@@ -169,7 +169,7 @@ class AlienInvasion:
 
     def _create_alien(self, alien_number, row_number, alien_width, alien_height):
         alien = Alien(self)
-        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.x = alien_width * 2 + 2 * alien_width * alien_number
         alien.rect.x = alien.x
         alien.y = alien_height + 2 * alien_height * row_number
         alien.rect.y = alien.y
