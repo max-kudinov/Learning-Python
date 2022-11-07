@@ -10,6 +10,7 @@ class Settings:
 
         # Graphic settings
         self.ship_image_scale = (57, 72)
+        self.ships_left_image_scale = (38, 48)
         self.alien_image_scale = (60, 39)
         self.ship_image_path = "images/ship2.0.bmp"
         self.alien_image_path = "images/alien.bmp"
@@ -30,6 +31,7 @@ class Settings:
 
         self.difficulty = ""
         self.score_increase = 10
+        self.high_score_file = "high_score.json"
 
     def initialize_dynamic_settings(self):
         if self.difficulty == "easy":

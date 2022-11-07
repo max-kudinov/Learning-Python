@@ -61,6 +61,7 @@ class AlienInvasion:
         """Respond to keypresses and mouse events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.stats.save_high_score()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -102,6 +103,7 @@ class AlienInvasion:
         elif event.key == pygame.K_u:
             self._end_game()
         elif event.key == pygame.K_q:
+            self.stats.save_high_score()
             sys.exit()
 
         if self.stats.difficulty_select:
@@ -182,13 +184,13 @@ class AlienInvasion:
         # Calculate number of aliens in a row
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
-        available_space_x = self.settings.screen_width - (4 * alien_width)
+        available_space_x = self.settings.screen_width - (6 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width) + 1
 
         # Calculate number of rows
         ship_height = self.ship.rect.height
         available_space_y = (
-            self.settings.screen_height - (3 * alien_height) - ship_height
+            self.settings.screen_height - (4 * alien_height) - ship_height
         )
         number_rows = available_space_y // (2 * alien_height)
 
@@ -220,9 +222,9 @@ class AlienInvasion:
 
     def _create_alien(self, alien_number, row_number, alien_width, alien_height):
         alien = Alien(self)
-        alien.x = alien_width * 2 + 2 * alien_width * alien_number
+        alien.x = alien_width * 3 + 2 * alien_width * alien_number
         alien.rect.x = alien.x
-        alien.y = alien_height + 2 * alien_height * row_number
+        alien.y = alien_height * 2 + 2 * alien_height * row_number
         alien.rect.y = alien.y
         self.aliens.add(alien)
 
