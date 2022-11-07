@@ -28,28 +28,31 @@ class Settings:
         # Alien settings
         self.fleet_drop_speed = 10
 
-    def set_easy_mode(self):
-        self.ship_speed = 0.2
-        self.bullet_speed = 0.3
-        self.alien_speed = 0.05
+        self.difficulty = ""
+        self.score_increase = 10
 
-        self.speedup_scale = 1.1
-        self.fleet_direction = 1
+    def initialize_dynamic_settings(self):
+        if self.difficulty == "easy":
+            self.ship_speed = 0.2
+            self.bullet_speed = 0.3
+            self.alien_speed = 0.05
+            self.speedup_scale = 1.1
+            self.alien_points = 40
 
-    def set_medium_mode(self):
-        self.ship_speed = 0.3
-        self.bullet_speed = 0.5
-        self.alien_speed = 0.1
+        elif self.difficulty == "medium":
+            self.ship_speed = 0.3
+            self.bullet_speed = 0.5
+            self.alien_speed = 0.1
+            self.speedup_scale = 1.4
+            self.alien_points = 50
 
-        self.speedup_scale = 1.4
-        self.fleet_direction = 1
+        elif self.difficulty == "hard":
+            self.ship_speed = 0.5
+            self.bullet_speed = 0.7
+            self.alien_speed = 0.2
+            self.speedup_scale = 1.7
+            self.alien_points = 60
 
-    def set_hard_mode(self):
-        self.ship_speed = 0.5
-        self.bullet_speed = 0.7
-        self.alien_speed = 0.2
-
-        self.speedup_scale = 1.7
         self.fleet_direction = 1
 
     def increase_speed(self):
@@ -57,3 +60,5 @@ class Settings:
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+
+        self.alien_points += self.score_increase
