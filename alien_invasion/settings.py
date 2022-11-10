@@ -12,7 +12,7 @@ class Settings:
         self.ship_image_scale = (57, 72)
         self.ships_left_image_scale = (38, 48)
         self.alien_image_scale = (60, 39)
-        self.ship_image_path = "images/ship2.0.bmp"
+        self.ship_image_path = "images/ship.bmp"
         self.alien_image_path = "images/alien.bmp"
         self.bg_color = (35, 38, 52)
 

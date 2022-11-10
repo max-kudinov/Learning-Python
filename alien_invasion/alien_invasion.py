@@ -31,19 +31,7 @@ class AlienInvasion:
 
         # Buttons
         self.play_button = Button(self, "Play")
-        self._make_difficulty_buttons()
-
-    def _make_difficulty_buttons(self):
-        # Difficulty buttons
-        self.easy_button = Button(self, "Soyjack")
-        self.medium_button = Button(self, "Normie")
-        self.hard_button = Button(self, "Dark Souls")
-
-        self.easy_button.rect.left -= self.easy_button.widht * 1.2
-        self.hard_button.rect.left += self.hard_button.widht * 1.2
-
-        self.easy_button.update_msg_position()
-        self.hard_button.update_msg_position()
+        self._create_difficulty_buttons()
 
     def run_game(self):
         """Main game loop"""
@@ -69,20 +57,22 @@ class AlienInvasion:
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                self._check_button(mouse_pos)
+                self._check_buttons(mouse_pos)
 
-    def _check_button(self, mouse_pos):
+    def _check_buttons(self, mouse_pos):
         """Starts the game when play button is pressed"""
-        play_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        easy_button_clicked = self.easy_button.rect.collidepoint(mouse_pos)
-        medium_button_clicked = self.medium_button.rect.collidepoint(mouse_pos)
-        hard_button_clicked = self.hard_button.rect.collidepoint(mouse_pos)
 
-        if self.stats.play_screen and play_button_clicked:
-            self.stats.play_screen = False
-            self.stats.difficulty_select = True
+        if self.stats.play_screen:
+            play_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+            if play_button_clicked:
+                self.stats.play_screen = False
+                self.stats.difficulty_select = True
 
         elif self.stats.difficulty_select:
+            easy_button_clicked = self.easy_button.rect.collidepoint(mouse_pos)
+            medium_button_clicked = self.medium_button.rect.collidepoint(mouse_pos)
+            hard_button_clicked = self.hard_button.rect.collidepoint(mouse_pos)
+
             if easy_button_clicked:
                 self._set_mode("easy")
             elif medium_button_clicked:
@@ -91,9 +81,9 @@ class AlienInvasion:
                 self._set_mode("hard")
 
     def _check_keydown_events(self, event):
-        if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+        if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+        elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -115,9 +105,9 @@ class AlienInvasion:
                 self._set_mode("hard")
 
     def _check_keyup_events(self, event):
-        if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+        if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+        elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
     def _update_screen(self):
@@ -132,7 +122,7 @@ class AlienInvasion:
             self.aliens.draw(self.screen)
             self.scoreboard.show_score()
 
-        # Draw play button before and after the game
+        # Draw buttons before and after the game
         if self.stats.play_screen:
             self.play_button.draw_button()
         elif self.stats.difficulty_select:
@@ -164,13 +154,17 @@ class AlienInvasion:
             self.scoreboard.prep_score()
             self.scoreboard.check_high_score()
 
-        # Create new fleet if old one is destroyed
+        # Create new level if all aliens are eliminated
         if not self.aliens:
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_speed()
-            self.stats.level += 1
-            self.scoreboard.prep_level()
+            self._start_new_level()
+
+    def _start_new_level(self):
+        """Starts a new level"""
+        self.bullets.empty()
+        self._create_fleet()
+        self.settings.increase_speed()
+        self.stats.level += 1
+        self.scoreboard.prep_level()
 
     def _fire_bullet(self):
         """Create new bullet and add it to bullets group"""
@@ -199,6 +193,14 @@ class AlienInvasion:
             for alien_number in range(number_aliens_x):
                 self._create_alien(alien_number, row_number, alien_width, alien_height)
 
+    def _create_alien(self, alien_number, row_number, alien_width, alien_height):
+        alien = Alien(self)
+        alien.x = alien_width * 3 + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.y = alien_height * 2 + 2 * alien_height * row_number
+        alien.rect.y = alien.y
+        self.aliens.add(alien)
+
     def _check_fleet_edges(self):
         """Changes direction of a fleet if fleet has reached the edge"""
         for alien in self.aliens.sprites():
@@ -219,14 +221,6 @@ class AlienInvasion:
             if alien.rect.bottom >= screen_rect.bottom:
                 self._ship_hit()
                 break
-
-    def _create_alien(self, alien_number, row_number, alien_width, alien_height):
-        alien = Alien(self)
-        alien.x = alien_width * 3 + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.y = alien_height * 2 + 2 * alien_height * row_number
-        alien.rect.y = alien.y
-        self.aliens.add(alien)
 
     def _update_aliens(self):
         """
@@ -250,10 +244,21 @@ class AlienInvasion:
 
         if self.stats.ships_left > 0:
             self._reset_game()
-            # Pause
-            sleep(1)
+            sleep(1)  # Pause
         else:
             self._end_game()
+
+    def _create_difficulty_buttons(self):
+        # Difficulty buttons
+        self.easy_button = Button(self, "Soyjack")
+        self.medium_button = Button(self, "Normie")
+        self.hard_button = Button(self, "Dark Souls")
+
+        self.easy_button.rect.left -= self.easy_button.widht * 1.2
+        self.hard_button.rect.left += self.hard_button.widht * 1.2
+
+        self.easy_button.update_msg_position()
+        self.hard_button.update_msg_position()
 
     def _draw_difficulty_buttons(self):
         self.easy_button.draw_button()
